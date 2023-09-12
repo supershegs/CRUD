@@ -96,7 +96,7 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse(config('EXTERNAL_URL'))
+DATABASES["default"] = dj_database_url.parse(config('DATABASE_URL'))
 
 
 # Password validation
