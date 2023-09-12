@@ -32,7 +32,32 @@ running on live url:
     ![Alt text](image-5.png)
 
 
-5.  Removing a person(delete) => delete /api/user_id
+5.  Removing a person(delete) => delete https://djangcrud-5lks.onrender.com/api/7
+
+    ![Alt text](image-6.png)
+
+validation/error
+
+first_name can not be digit, last_name can not be digit and username can be digit only string
+   
+    ![Alt text](image-7.png)
+   
+    ![Alt text](image-8.png)
+
+    ![Alt text](image-9.png)
+
+first_name can not be the same as last_name and also username can be the same as firstname or last_name
+
+    ![Alt text](image-10.png)
+
+    ![Alt text](image-11.png)
+
+email validation error and date of birth validation error handling:
+
+    ![Alt text](image-12.png)
+
+    ![Alt text](image-13.png)
+
 
 
 UML diagrams: https://drive.google.com/file/d/1Akm06_tHImRAENyEVZCZflzRL_8kUha7/view?usp=drive_link and https://drive.google.com/file/d/1u2_m5bwO49KjxM8LVVWiEwtXbkoJGxwN/view?usp=drive_link
