@@ -184,7 +184,7 @@ class PersonViewTest(TestCase):
         url = reverse('get-person-by-user_id', args=[self.person.id])
         response = self.client.delete(url)
         self.assertEqual(response.status_code, 204)
-        self.assertEqual(response.data, {'message': 'Category deleted successfully.'})
+        self.assertEqual(response.data, {'message': 'Person deleted successfully.'})
         # if person not found
         self.person.id = 11 # let pick a random id not in db
         url = reverse('get-person-by-user_id', args=[self.person.id])

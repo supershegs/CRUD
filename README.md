@@ -3,60 +3,33 @@ pip install -r requirements.txt
 running API locally on your system after installing requirement.
 py manage.py runserver
 
+running on localhost:
+    run url on postman: localhost/api or http://127.0.0.1:8000/api
 
-1.  Adding a new person(create)=> get /api
-    ![Alt text](image.png)
+running on live url:
+    run url on Postman: https://djangcrud-5lks.onrender.com/api
 
-    request = {
-        "first_name": "firstname",
-        "last_name": "lastname",        
-        "username": "username",
-        "email": "email@gmail.com",
-        "date_of_birth": "yyyy-mm-dd",
-        "phone_number": "phone_number",
-        "address": "address
-    }
 
-    response = {"id": user_id,"message": "Person created successfully"}
+1.  Adding a new person(create)=> post https://djangcrud-5lks.onrender.com/api
+
+    ![Alt text](image-1.png)
 
 
 
-2.  To get all persons detail on DB(read)=> post /api/
-  
+2.  To get all persons detail on DB(read)=> get https://djangcrud-5lks.onrender.com/api
 
-    response=   [{
-        "first_name": "firstname",
-        "last_name": "lastname",
-        "username": "username",
-        "email": "email@gmail.com",
-        "date_of_birth": "yyyy-mm-dd",
-        "phone_number": "phone_number",
-        "address": "address
-    },{
-        "first_name": "firstname",
-        "last_name": "lastname",
-        "username": "username",
-        "email": "email@gmail.com",
-        "date_of_birth": "yyyy-mm-dd",
-        "phone_number": "phone_number",
-        "address": "address
-    }]
-
-3.  To fetch details of a person(read)=> post /api/user_id
+    ![Alt text](image-2.png)
     
-    response = {
-        "first_name": "firstname",
-        "last_name": "lastname",
-        "username": "username",
-        "email": "email@gmail.com",
-        "date_of_birth": "yyyy-mm-dd",
-        "phone_number": "phone_number",
-        "address": "address
-    }
+
+
+
+3.  To fetch details of a person(read)=> get https://djangcrud-5lks.onrender.com/api/4
+    
+    ![Alt text](image-4.png)
 
 4.  Modifying details of an existing person(update)=> put /api/user_id
 
-    response= { "message": "Person updated successfully."}
+    ![Alt text](image-5.png)
 
 
 5.  Removing a person(delete) => delete /api/user_id

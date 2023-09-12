@@ -52,6 +52,6 @@ class PersonView(APIView):
             return Response({'message': 'Person not found'}, status=status.HTTP_404_NOT_FOUND)
         
         person_details.delete()
-        return Response({'message': 'Category deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'message': 'Person deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
     
 
