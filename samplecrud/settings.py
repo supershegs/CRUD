@@ -86,14 +86,14 @@ WSGI_APPLICATION = "samplecrud.wsgi.application"
 # }
 
 DATABASES = {
-    'default': {   
-        # 'ENGINE': config('ENGINE'),
-        # 'NAME': config('NAME'),
-        # 'USER': config('USER'),
-        # 'PASSWORD': config('PASSWORD'),
-        # 'HOST': config('HOST'),
-        # 'PORT': config('PORT'),
-    }
+    # 'default': {   
+    #     # 'ENGINE': config('ENGINE'),
+    #     # 'NAME': config('NAME'),
+    #     # 'USER': config('USER'),
+    #     # 'PASSWORD': config('PASSWORD'),
+    #     # 'HOST': config('HOST'),
+    #     # 'PORT': config('PORT'),
+    # }
 }
 
 DATABASES["default"] = dj_database_url.parse(config('DATABASE_URL'))
