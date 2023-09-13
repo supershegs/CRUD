@@ -11,9 +11,9 @@ from rest_framework import status
 class PersonView(APIView):
     def get(self, request, user_id= None):
         try:
+            print(user_id)
             if user_id is None:
                 person_details = Person.objects.all()
-                # serializer = PersonSerializer(data=request.data)
                 serializer = PersonSerializer(person_details, many= True)
             else:
                 try:
@@ -34,7 +34,6 @@ class PersonView(APIView):
     def put(self,request,  user_id= None):
         try:
             person_details = Person.objects.get(pk=user_id)
-            # 
         except Person.DoesNotExist:
             return Response({'message': 'Person not found'}, status=status.HTTP_404_NOT_FOUND)
         
@@ -48,10 +47,11 @@ class PersonView(APIView):
     def delete(self,request,  user_id= None):
         try:
             person_details = Person.objects.get(pk=user_id)
+            person_details.delete()
+            return Response({'message': 'Person deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
         except Person.DoesNotExist:
             return Response({'message': 'Person not found'}, status=status.HTTP_404_NOT_FOUND)
         
-        person_details.delete()
-        return Response({'message': 'Person deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
+        
     
 

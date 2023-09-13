@@ -20,7 +20,8 @@ sample_data = [
             "email": "MarkEssien@example.com",
             "date_of_birth": "2000-01-01",
             "phone_number": "1234567890",
-            "address": "123 Main St"
+            "address": "123 Main St",
+            "name": "Mark Essien"
         },
 
         {
@@ -30,7 +31,8 @@ sample_data = [
             "email": "JohnEssien@example.com",
             "date_of_birth": "2000-01-01",
             "phone_number": "1234567890",
-            "address": "123 Main St"
+            "address": "123 Main St",
+            "name": "John Essien"
         }
 ]
 class PersonModelTest(TestCase):
@@ -66,7 +68,8 @@ class PersonSerializerTest(TestCase):
             "email": "MarkEssien@example.com",
             "date_of_birth": "2000-01-01",
             "phone_number": "1234567890",
-            "address": "123 Main St"
+            "address": "123 Main St",
+            'name' : 'Mark Essien'
         }
         serializer = PersonSerializer(data=data)
         self.assertTrue(serializer.is_valid())
@@ -79,7 +82,8 @@ class PersonSerializerTest(TestCase):
             "email": "MarkEssien@example.com",
             "date_of_birth": "2000-01-01",
             "phone_number": "1234567890",
-            "address": "123 Main St"
+            "address": "123 Main St",
+            'name' : 'Mark Essien'
         }
         serializer = PersonSerializer(data=data)
         with self.assertRaises(ValidationError) as context:
@@ -95,13 +99,50 @@ class PersonSerializerTest(TestCase):
             "email": "MarkEssien@example.com",
             "date_of_birth": "2000-01-01",
             "phone_number": "1234567890",
-            "address": "123 Main St"
+            "address": "123 Main St",
+            'name' : 'Mark Essien'
         }
         serializer = PersonSerializer(data=data)
         with self.assertRaises(ValidationError) as context:
             serializer.is_valid(raise_exception=True)
+        
         self.assertIn('First name and last name cannot be the same', str(context.exception.detail))  
         self.assertEqual(str(context.exception.detail['non_field_errors'][0]), 'First name and last name cannot be the same.')
+    
+    def test_serializer_with_the_emptydata(self):
+        data = {
+            "first_name": "Mark",  
+            "last_name": "Mark",
+            "username": "",# the username is empty/''
+            "email": "MarkEssien@example.com",
+            "date_of_birth": "2000-01-01",
+            "phone_number": "1234567890",
+            "address": "123 Main St",
+            'name' : 'Mark Essien'
+        }
+        serializer = PersonSerializer(data=data)
+        with self.assertRaises(ValidationError) as context:
+            serializer.is_valid(raise_exception=True)
+        self.assertIn("This field may not be blank.", str(context.exception.detail))  
+        self.assertEqual(str(context.exception.detail['username'][0]), 'This field may not be blank.')
+    
+    def test_serializer_with_the_missingdata(self):
+        data = {
+            "first_name": "Mark",  
+            # "last_name": "Mark", last_name missing
+            "username": "MarkEssien",
+            "email": "MarkEssien@example.com",
+            "date_of_birth": "2000-01-01",
+            "phone_number": "1234567890",
+            "address": "123 Main St",
+            'name' : 'Mark Essien'
+        }
+        serializer = PersonSerializer(data=data)
+        with self.assertRaises(ValidationError) as context:
+            serializer.is_valid(raise_exception=True)
+        self.assertIn("This field is required.", str(context.exception.detail))  
+        self.assertEqual(str(context.exception.detail['last_name'][0]), 'This field is required.')
+
 
 
 class PersonViewTest(TestCase):
@@ -142,6 +183,8 @@ class PersonViewTest(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['first_name'], "John")
+        name = '{} {}'.format(response.data['first_name'], response.data['last_name'])
+        self.assertEqual(response.data['name'], name)
         # person.id not found
         self.person.id = 11 # let pick a random id not in db
         url = reverse('get-person-by-user_id', args=[self.person.id])
@@ -166,6 +209,10 @@ class PersonViewTest(TestCase):
         self.assertEqual(response.data, {'message': 'Person updated successfully.'})
         self.assertEqual(response.status_code, 200)
         updated_person = Person.objects.get(pk=self.person.id)
+
+        name = '{} {}'.format(updated_data['first_name'], updated_data['last_name'])
+        self.assertEqual(updated_person.name, name)
+        
         self.assertEqual(updated_person.first_name, updated_data['first_name'])
         self.assertEqual(updated_person.last_name, updated_data['last_name'])
         self.assertEqual(updated_person.username, updated_data['username'])
@@ -173,6 +220,7 @@ class PersonViewTest(TestCase):
         self.assertEqual(str(updated_person.date_of_birth), updated_data['date_of_birth'])
         self.assertEqual(updated_person.phone_number, updated_data['phone_number'])
         self.assertEqual(updated_person.address, updated_data['address'])
+        
         # if person not found
         self.person.id = 11 # let pick a random id not in db
         url = reverse('get-person-by-user_id', args=[self.person.id])
